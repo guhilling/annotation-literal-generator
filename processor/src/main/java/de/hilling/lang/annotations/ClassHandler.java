@@ -33,13 +33,6 @@ public class ClassHandler {
     }
 
     private void collectAccessorInfo(ExecutableElement methodRef) {
-        if (Utils.isGetter(methodRef)) {
-            String attributeName = Utils.attributeNameForAccessor(methodRef);
-            AttributeInfo info = classModel.getInfo(attributeName);
-            info.setType(methodRef.getReturnType());
-        } else if (Utils.isSetter(methodRef)) {
-            String attributeName = Utils.attributeNameForAccessor(methodRef);
-            classModel.getInfo(attributeName).setWritable(true);
-        }
+        classModel.addAttribute(methodRef.getSimpleName().toString(), methodRef.getReturnType());
     }
 }

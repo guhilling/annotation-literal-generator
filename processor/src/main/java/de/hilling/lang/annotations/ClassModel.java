@@ -6,24 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.type.TypeMirror;
 
 /**
- * Properties model for class.
+ * Properties model for annotation.
  */
-public class ClassModel {
-    private final ProcessingEnvironment env;
-    private final Map<String, AttributeInfo> attributes = new HashMap<>();
-    private final List<String>               names      = new ArrayList<>();
+class ClassModel {
+    private final ProcessingEnvironment   env;
+    private final Map<String, TypeMirror> attributes = new HashMap<>();
+    private final List<String>            names      = new ArrayList<>();
 
     ClassModel(ProcessingEnvironment env) {
         this.env = env;
     }
 
-    AttributeInfo getInfo(String attributeName) {
-        if (!attributes.containsKey(attributeName)) {
-            attributes.put(attributeName, new AttributeInfo());
-            names.add(attributeName);
-        }
+    TypeMirror getType(String attributeName) {
         return attributes.get(attributeName);
     }
 
@@ -32,16 +29,14 @@ public class ClassModel {
     }
 
     /**
-     * @return map with all attributes for current class.
-     */
-    Map<String, AttributeInfo> attributes() {
-        return attributes;
-    }
-
-    /**
      * @return attribute names in declaration order.
      */
     List<String> names() {
         return names;
+    }
+
+    public void addAttribute(String name, TypeMirror type) {
+        names.add(name);
+        attributes.put(name, type);
     }
 }

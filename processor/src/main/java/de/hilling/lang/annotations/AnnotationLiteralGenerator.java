@@ -38,7 +38,7 @@ public class AnnotationLiteralGenerator extends AbstractProcessor {
 
     private void writeLiteralClass(TypeElement element, ClassModel classModel) {
         try {
-            new MetaClassWriter(element, classModel).invoke();
+            new LiteralClassWriter(element, classModel).invoke();
         } catch (IOException e) {
             messager().printMessage(Diagnostic.Kind.ERROR, "Writing metaclass failed", element);
         }

@@ -13,14 +13,15 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 /**
- * Create meta model class for given Type.
+ * Create literal for given annotation.
  */
-class MetaClassWriter {
+class LiteralClassWriter {
 
     private static final String SUFFIX = "__Literal";
 
@@ -34,7 +35,7 @@ class MetaClassWriter {
      * @param annotationType the bean class.
      * @param classModel     attribute informations about the bean class.
      */
-    MetaClassWriter(TypeElement annotationType, ClassModel classModel) {
+    LiteralClassWriter(TypeElement annotationType, ClassModel classModel) {
         this.annotationType = annotationType;
         this.classModel = classModel;
         literalClassName = annotationType.getSimpleName() + SUFFIX;
@@ -46,14 +47,43 @@ class MetaClassWriter {
      * @throws IOException if source file cannot be written.
      */
     void invoke() throws IOException {
-        TypeSpec.Builder classBuilder = TypeSpec.classBuilder(literalClassName).addModifiers(Modifier.PUBLIC);
-        addAnnotationGenerated(classBuilder);
         final Types typeUtils = classModel.getEnvironment().getTypeUtils();
+        TypeSpec.Builder classBuilder = TypeSpec.classBuilder(literalClassName).addModifiers(Modifier.PUBLIC);
+
+        addAnnotationGenerated(classBuilder);
+
         final DeclaredType declaredType = typeUtils.getDeclaredType(annotationType);
         classBuilder.addSuperinterface(TypeName.get(declaredType));
         classBuilder.superclass(ParameterizedTypeName.get(ClassName.get(AnnotationLiteral.class), ClassName.get(declaredType)));
 
-        JavaFile javaFile = JavaFile.builder(ClassName.get(annotationType).packageName(), classBuilder.build())
+        final MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder();
+        constructorBuilder.addModifiers(Modifier.PUBLIC);
+
+        for (String attribute : classModel.names()) {
+            final TypeName typeName = TypeName.get(classModel.getType(attribute));
+
+            classBuilder.addField(FieldSpec.builder(typeName, attribute, Modifier.PRIVATE, Modifier.FINAL).build());
+
+            constructorBuilder.addParameter(typeName, attribute);
+            constructorBuilder.addStatement("this.$1L = $1L", attribute);
+
+            final MethodSpec.Builder builder = MethodSpec.methodBuilder(attribute);
+            builder.addAnnotation(Override.class);
+            builder.addModifiers(Modifier.PUBLIC);
+            builder.returns(typeName);
+            builder.addStatement("return $L", attribute);
+            classBuilder.addMethod(builder.build());
+        }
+
+        if (classModel.names().size() > 0) {
+            classBuilder.addMethod(constructorBuilder.build());
+        }
+
+        writeSource(classBuilder.build());
+    }
+
+    private void writeSource(TypeSpec typeSpec) throws IOException {
+        JavaFile javaFile = JavaFile.builder(ClassName.get(annotationType).packageName(), typeSpec)
                                     .indent("    ").build();
         javaFile.writeTo(classModel.getEnvironment().getFiler());
     }

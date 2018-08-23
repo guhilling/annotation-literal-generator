@@ -18,7 +18,6 @@ public class AnnotationLiteralGeneratorTest {
 
     private Compiler compiler;
 
-
     @Before
     public void setUpCompiler() {
         compiler = javac().withProcessors(new AnnotationLiteralVerifier(), new AnnotationLiteralGenerator());

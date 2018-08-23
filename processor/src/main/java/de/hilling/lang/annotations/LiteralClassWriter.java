@@ -75,7 +75,7 @@ class LiteralClassWriter {
             classBuilder.addMethod(builder.build());
         }
 
-        if (classModel.names().size() > 0) {
+        if (!classModel.names().isEmpty()) {
             classBuilder.addMethod(constructorBuilder.build());
         }
 

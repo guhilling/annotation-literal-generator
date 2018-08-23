@@ -2,7 +2,7 @@ package de.hilling.lang.annotations;
 
 import java.io.IOException;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;

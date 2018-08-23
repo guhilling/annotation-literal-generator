@@ -18,7 +18,6 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 @SupportedAnnotationTypes({"de.hilling.lang.annotations.GenerateLiteral"})
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class AnnotationLiteralVerifier extends AbstractProcessor {
 
     public static final String ERROR_MESSAGE = "wrong use of annotation: must be used on an annotation.";
@@ -43,6 +42,11 @@ public class AnnotationLiteralVerifier extends AbstractProcessor {
         if (element.getKind() != ElementKind.ANNOTATION_TYPE) {
             compilerErrorMessage(element);
         }
+    }
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latestSupported();
     }
 
     private void compilerErrorMessage(Element element) {

@@ -9,11 +9,6 @@ addons:
       secure: "PIVBggt+JPplyg9oy6BZwQH2zHSFEsPdTlaJcXXEbnumfGzRbcq4Dr1FXzWn1ZOas9cPv0tG5YHbMhTYvettSLssAWI12LzgcjdvlqFrn4PYwa4zux+xJYxfgHdrIay6sm4FfS59ERz5oC8BBab5rxBCSWsONYrw0lO1esYw4Wk="
     branches:
       - master
-      - sonarcloud
-
-env:
-  global:
-    - CC_TEST_REPORTER_ID=e425ef394077097a45c21ba569a0af90b39ff44fb35709becf535fa1e6cf2e26
 
 language: java
 

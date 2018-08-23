@@ -17,6 +17,7 @@ import com.google.testing.compile.JavaFileObjects;
 public class AnnotationLiteralGeneratorTest {
 
     private Compiler compiler;
+    
 
     @Before
     public void setUpCompiler() {

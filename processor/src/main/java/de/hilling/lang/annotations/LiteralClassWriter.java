@@ -59,27 +59,31 @@ class LiteralClassWriter {
         final MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder();
         constructorBuilder.addModifiers(Modifier.PUBLIC);
 
-        for (String attribute : classModel.names()) {
-            final TypeName typeName = TypeName.get(classModel.getType(attribute));
-
-            classBuilder.addField(FieldSpec.builder(typeName, attribute, Modifier.PRIVATE, Modifier.FINAL).build());
-
-            constructorBuilder.addParameter(typeName, attribute);
-            constructorBuilder.addStatement("this.$1L = $1L", attribute);
-
-            final MethodSpec.Builder builder = MethodSpec.methodBuilder(attribute);
-            builder.addAnnotation(Override.class);
-            builder.addModifiers(Modifier.PUBLIC);
-            builder.returns(typeName);
-            builder.addStatement("return $L", attribute);
-            classBuilder.addMethod(builder.build());
-        }
+        classModel.names()
+                  .forEach(attribute -> generateAttributeAndMethod(classBuilder, constructorBuilder, attribute));
 
         if (!classModel.names().isEmpty()) {
             classBuilder.addMethod(constructorBuilder.build());
         }
 
         writeSource(classBuilder.build());
+    }
+
+    private void generateAttributeAndMethod(TypeSpec.Builder classBuilder, MethodSpec.Builder constructorBuilder,
+                                            String attribute) {
+        final TypeName typeName = TypeName.get(classModel.getType(attribute));
+
+        classBuilder.addField(FieldSpec.builder(typeName, attribute, Modifier.PRIVATE, Modifier.FINAL).build());
+
+        constructorBuilder.addParameter(typeName, attribute);
+        constructorBuilder.addStatement("this.$1L = $1L", attribute);
+
+        final MethodSpec.Builder builder = MethodSpec.methodBuilder(attribute);
+        builder.addAnnotation(Override.class);
+        builder.addModifiers(Modifier.PUBLIC);
+        builder.returns(typeName);
+        builder.addStatement("return $L", attribute);
+        classBuilder.addMethod(builder.build());
     }
 
     private void writeSource(TypeSpec typeSpec) throws IOException {

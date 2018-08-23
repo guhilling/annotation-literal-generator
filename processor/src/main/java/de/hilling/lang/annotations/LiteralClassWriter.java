@@ -93,18 +93,4 @@ class LiteralClassWriter {
         specBuilder.addMember("value", "$S", AnnotationLiteralGenerator.class.getCanonicalName());
         classBuilder.addAnnotation(specBuilder.build());
     }
-
-    private FieldSpec createFieldSpec(String attributeName, AttributeInfo info) {
-        final ParameterizedTypeName fieldType = declarationTypeName(info);
-        return FieldSpec.builder(fieldType, attributeName)
-                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL).build();
-    }
-
-    private ParameterizedTypeName declarationTypeName(AttributeInfo info) {
-        final TypeName attributeTypeName = TypeName.get(info.getType());
-        final TypeName classTypeName = TypeName.get(annotationType.asType());
-        final Class declaredClass;
-        declaredClass = String.class;
-        return ParameterizedTypeName.get(ClassName.get(declaredClass), classTypeName, attributeTypeName);
-    }
 }

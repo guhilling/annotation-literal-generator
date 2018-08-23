@@ -1,19 +1,25 @@
 sudo: false
 dist: trusty
 group: edge
+
 addons:
   sonarcloud:
     organization: literal-generator
     token:
-      secure: oon0NdoHdD+9OFrhedsd5GP3ev/BpN/V/nPGmhpyw+vJs5pp79lMJTAuXK7shAXVrJHnWMwpgRCXD50fi9gEFg6byl0kabS0myqc6i0Xbl+W3vxyQLRCVVKOGP9o+dXN73PMlPDht8O9Sz+iU+nFvG9KLFsDZ+mPp/WM49zWPRTLUyNwTcGoRVK5Q8H4f3cjznuddJyQRJHE9jAWYlaNzwnlKFofnRMI4FZBVJYPx5x5flE8dSpZBl9NuiZrfzyt0xMojy677WJM8Exwlwa33lK/G0g9qnCKXCpcvYzeSa3bYlXZQ7i2ZyvOaCs0BVidgLI1nrNRF14MqV9YSCB0O1Ss/bz1GbKPtCXA6d49aDJq16aURGsdFrK72yxsX5l6TqxVF9/RiYr0nAcybgTAryN+uGeizoK0YdOCaYyzzk1qu7LPCsEXeSLFEQ+t6IHl97of11SA2U5+rFS5Fr7Uv0Xb6nQ4js4z9px29KT3eyFhxVwx/d+QAT68A1dN+0fqoaJnpfjWfbBdeDtJHKxuYoZvngxXXiyZ1bwBzbCmrcZnTo0OtZpOeB2MVGDZYcAuQEtPxAoincE23canMyqtfnLUntH+K7HGfxNYYBtLs+KR2qkjKZLzOSzhcjXPavVbsUfklrKYLR9KOvM9hAZyns+m53oaTb7PseVxDj2+VAg=
+      secure: "RyhED3DMWkT79JJL2jdkmaTPlfQr7+qKIAX9HYkpYN/rTHQyeTAKQoYa3I+Decb18I4bdDTCL7ycweXxK5kzXYBMP04jIIBDTQ7jEFOhr1j0JqYJQ51IWfmfjDForh3lhfBrwvaUmRoV/A6W6oER8LZg0OxSNPVhsBxTZiyoVxdDl0eHZlunD44kLRPRPVC8BQjGanwEU7rKUBc/FEjKrgPztw9VwRvr7drMwr9OK6bRVDw9t90oNoiThipHSTzw2VxXY/OaOfOjYxSoOqIu912CggvkjES2fX7QpZBFf11uAXd5TY7j1YgtNXHexiYdO7TPySQL37gond7b0y3IqpJSwcuptWoXRAzlPmhYcaBdL4NGXT+Q9F35M1SGXJS1qIUTHZn+ffAMdNoiA8a1dZB+K5034qnLIrf4PsCm4UVFwic/rQSw6TzHzSqKisuFNT5vdUo0PqRrZ7WQjHLnDdMFZOjLZMf0qWvII5uC1UtKk5MXjJ0zO+fkCeDw48l9Ier4pI2D44kvwR3DcwHCWgk+Vwm7SWIeOz/r6F89NPkvZDGIe5IFesvc63lnhvAqjeXUuq8Ync1xp68up9gIIUqZJ9Owqd0bFKQ8kifvkZzosii+zdUG1706UD8CuKaCBgoaQZoi5GOaoDv8fyL6d0Ug/KM+Hbi4AlJsCTYCNQ0="
     branches:
     - master
+
 language: java
+
 install: "/bin/true"
+
 jdk:
 - oraclejdk9
+
 script:
 - mvn test jacoco:report sonar:sonar
+
 cache:
   directories:
   - "$HOME/.m2/repository"

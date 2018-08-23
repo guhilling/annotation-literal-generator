@@ -1,25 +1,19 @@
 sudo: false
 dist: trusty
 group: edge
-
 addons:
   sonarcloud:
-    organization: "guhilling-github"
+    organization: literal-generator
     token:
-      secure: "PIVBggt+JPplyg9oy6BZwQH2zHSFEsPdTlaJcXXEbnumfGzRbcq4Dr1FXzWn1ZOas9cPv0tG5YHbMhTYvettSLssAWI12LzgcjdvlqFrn4PYwa4zux+xJYxfgHdrIay6sm4FfS59ERz5oC8BBab5rxBCSWsONYrw0lO1esYw4Wk="
+      secure: oon0NdoHdD+9OFrhedsd5GP3ev/BpN/V/nPGmhpyw+vJs5pp79lMJTAuXK7shAXVrJHnWMwpgRCXD50fi9gEFg6byl0kabS0myqc6i0Xbl+W3vxyQLRCVVKOGP9o+dXN73PMlPDht8O9Sz+iU+nFvG9KLFsDZ+mPp/WM49zWPRTLUyNwTcGoRVK5Q8H4f3cjznuddJyQRJHE9jAWYlaNzwnlKFofnRMI4FZBVJYPx5x5flE8dSpZBl9NuiZrfzyt0xMojy677WJM8Exwlwa33lK/G0g9qnCKXCpcvYzeSa3bYlXZQ7i2ZyvOaCs0BVidgLI1nrNRF14MqV9YSCB0O1Ss/bz1GbKPtCXA6d49aDJq16aURGsdFrK72yxsX5l6TqxVF9/RiYr0nAcybgTAryN+uGeizoK0YdOCaYyzzk1qu7LPCsEXeSLFEQ+t6IHl97of11SA2U5+rFS5Fr7Uv0Xb6nQ4js4z9px29KT3eyFhxVwx/d+QAT68A1dN+0fqoaJnpfjWfbBdeDtJHKxuYoZvngxXXiyZ1bwBzbCmrcZnTo0OtZpOeB2MVGDZYcAuQEtPxAoincE23canMyqtfnLUntH+K7HGfxNYYBtLs+KR2qkjKZLzOSzhcjXPavVbsUfklrKYLR9KOvM9hAZyns+m53oaTb7PseVxDj2+VAg=
     branches:
-      - master
-
+    - master
 language: java
-
-install: /bin/true
-
+install: "/bin/true"
 jdk:
 - oraclejdk9
-
 script:
 - mvn test jacoco:report sonar:sonar
-
 cache:
   directories:
   - "$HOME/.m2/repository"

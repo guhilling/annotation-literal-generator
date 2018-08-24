@@ -38,7 +38,7 @@ public class AnnotationLiteralGeneratorTest {
         final JavaFileObject noElementAnnotation = source(NoElementAnnotation.class);
         Compilation compilation = compiler.compile(noElementAnnotation);
 
-        assertAbout(compilations()).that(compilation).succeededWithoutWarnings();
+        assertAbout(compilations()).that(compilation).succeeded();
 
         assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(NoElementAnnotation__Literal.class))
                                    .hasSourceEquivalentTo(source(NoElementAnnotation__Literal.class));
@@ -49,7 +49,7 @@ public class AnnotationLiteralGeneratorTest {
         final JavaFileObject annotatedAnnotation = source(AnnotatedAnnotation.class);
         Compilation compilation = compiler.compile(annotatedAnnotation);
 
-        assertAbout(compilations()).that(compilation).succeededWithoutWarnings();
+        assertAbout(compilations()).that(compilation).succeeded();
 
         assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotatedAnnotation__Literal.class))
                                    .hasSourceEquivalentTo(source(AnnotatedAnnotation__Literal.class));
@@ -60,7 +60,7 @@ public class AnnotationLiteralGeneratorTest {
         final JavaFileObject annotatedAnnotation = source(AnnotatedAnnotationMultipleAttributes.class);
         Compilation compilation = compiler.compile(annotatedAnnotation);
 
-        assertAbout(compilations()).that(compilation).succeededWithoutWarnings();
+        assertAbout(compilations()).that(compilation).succeeded();
 
         assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotatedAnnotationMultipleAttributes__Literal.class))
                                    .hasSourceEquivalentTo(source(AnnotatedAnnotationMultipleAttributes__Literal.class));

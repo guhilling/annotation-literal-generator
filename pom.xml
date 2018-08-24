@@ -16,6 +16,7 @@
         <compile-testing.version>0.15</compile-testing.version>
         <truth.version>0.42</truth.version>
         <javapoet.version>1.11.1</javapoet.version>
+        <junit-jupiter-api.version>5.2.0</junit-jupiter-api.version>
     </properties>
 
 
@@ -36,6 +37,12 @@
                 <groupId>com.google.testing.compile</groupId>
                 <artifactId>compile-testing</artifactId>
                 <version>${compile-testing.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter-api.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

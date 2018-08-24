@@ -1,4 +1,9 @@
 [![Build Status](https://travis-ci.org/guhilling/annotation-literal-generator.svg?branch=master)](https://travis-ci.org/guhilling/annotation-literal-generator)
+[![Coverage (Sonar)](https://sonarcloud.io/api/project_badges/measure?project=de.hilling.lang.annotations%3Aliteral-generator&metric=coverage)](https://sonarcloud.io/dashboard?id=de.hilling.lang.annotations%3Aliteral-generator)
+[![Status (Sonar)](https://sonarcloud.io/api/project_badges/measure?project=de.hilling.lang.annotations%3Aliteral-generator&metric=alert_status)](https://sonarcloud.io/dashboard?id=de.hilling.lang.annotations%3Aliteral-generator)
+[![Maintainability (Sonar)](https://sonarcloud.io/api/project_badges/measure?project=de.hilling.lang.annotations%3Aliteral-generator&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=de.hilling.lang.annotations%3Aliteral-generator)
+[![Maven Central](https://img.shields.io/maven-central/v/de.hilling.lang.annotations/literal-generator.svg)](http://search.maven.org/#search|gav|1|g:"de.hilling.lang.annotations"%20AND%20a:"literal-generator")
+
 # Annotation Literal Generator
 
 ## Introduction

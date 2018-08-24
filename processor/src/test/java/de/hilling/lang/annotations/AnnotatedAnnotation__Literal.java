@@ -1,6 +1,5 @@
 package de.hilling.lang.annotations;
 
-import java.lang.Override;
 import javax.annotation.processing.Generated;
 import javax.enterprise.util.AnnotationLiteral;
 

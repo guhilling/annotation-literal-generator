@@ -87,8 +87,8 @@ class LiteralClassWriter {
     }
 
     private void writeSource(TypeSpec typeSpec) throws IOException {
-        JavaFile javaFile = JavaFile.builder(ClassName.get(annotationType).packageName(), typeSpec)
-                                    .indent("    ").build();
+        JavaFile javaFile = JavaFile.builder(ClassName.get(annotationType).packageName(), typeSpec).indent("    ")
+                                    .skipJavaLangImports(true).build();
         javaFile.writeTo(classModel.getEnvironment().getFiler());
     }
 

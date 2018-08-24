@@ -55,6 +55,17 @@ public class AnnotationLiteralGeneratorTest {
                                    .hasSourceEquivalentTo(source(AnnotatedAnnotation__Literal.class));
     }
 
+    @Test
+    public void compileAnnotatedAnnotationMultipleAttributes() {
+        final JavaFileObject annotatedAnnotation = source(AnnotatedAnnotationMultipleAttributes.class);
+        Compilation compilation = compiler.compile(annotatedAnnotation);
+
+        assertAbout(compilations()).that(compilation).succeededWithoutWarnings();
+
+        assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotatedAnnotationMultipleAttributes__Literal.class))
+                                   .hasSourceEquivalentTo(source(AnnotatedAnnotationMultipleAttributes__Literal.class));
+    }
+
     private JavaFileObject source(Class<?> clazz) {
         return JavaFileObjects.forResource(qualifiedName(clazz) + ".java");
     }

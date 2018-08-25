@@ -13,11 +13,11 @@ It should nevertheless prove useful and is developed and tested to current stand
 
 ## ~~Problem~~ Challenge
 
-When developing CDI applications or extensions You often have to create instances of
+When developing CDI applications or extensions you often have to create instances of
 annotations e.g. for firing events.
 This is supported by the `AnnotationLiteral` superclass.
 
-Unfortunately You have to do create quite some boiler plate code. Typical usage
+Unfortunately you have to write quite some boiler plate code. Typical usage
 looks like this:
 
 ```java
@@ -36,12 +36,12 @@ looks like this:
 
 ```
 
-That's quite some code where You would just like to create an instance of an annotation.
+That's quite some code where you would just like to create an instance of an annotation.
 
 ## Solution
 
 This library provides an annotation processor that generates the annotation literals for
-You! It's only necessary to include the library into you java project as follows
+you! It's only necessary to include the library into your java project as follows
 (see also the integration-tests project):
 
 ```xml
@@ -53,10 +53,10 @@ You! It's only necessary to include the library into you java project as follows
         </dependency>
 ```
 
-The processor is only needed for the code generation. To compile the generated code You
+The processor is only needed for the code generation. To compile the generated code you
 also need the cdi-api in any version for the `AnnotationLiteral` class.
 
-You code will look as this:
+Your annotation will look like this:
 
 ```java
 @GenerateLiteral

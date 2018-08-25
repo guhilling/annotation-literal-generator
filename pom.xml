@@ -143,6 +143,8 @@
                         <serverId>ossrh</serverId>
                         <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                         <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        <autoDropAfterRelease>true</autoDropAfterRelease>
+                        <skipLocalStaging>true</skipLocalStaging>
                     </configuration>
                 </plugin>
             </plugins>
@@ -209,6 +211,12 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

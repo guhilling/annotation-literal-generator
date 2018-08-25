@@ -5,6 +5,8 @@
     <artifactId>literal-generator</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <url>https://github.com/guhilling/annotation-literal-generator</url>
+    <inceptionYear>2018</inceptionYear>
 
     <name>Annotation Literal Generator</name>
     <description>Annotation processor to build annotation literals for own annotations</description>
@@ -49,6 +51,20 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+
+    <developers>
+        <developer>
+            <name>Gunnar Hilling</name>
+            <id>gunnar</id>
+            <email>literal-generator@hilling.de</email>
+            <organization>Gunnar Hilling IT Consulting GmbH</organization>
+            <timezone>+1</timezone>
+            <roles>
+                <role>architect</role>
+                <role>committer</role>
+            </roles>
+        </developer>
+    </developers>
 
     <dependencyManagement>
         <dependencies>
@@ -144,7 +160,6 @@
                         <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                         <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         <autoDropAfterRelease>true</autoDropAfterRelease>
-                        <skipLocalStaging>true</skipLocalStaging>
                     </configuration>
                 </plugin>
             </plugins>

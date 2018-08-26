@@ -3,10 +3,10 @@
     <parent>
         <groupId>de.hilling.lang.annotations</groupId>
         <artifactId>literal-generator</artifactId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.2</version>
     </parent>
 
     <artifactId>api</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
 
 </project>

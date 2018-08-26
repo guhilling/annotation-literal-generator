@@ -7,13 +7,9 @@
     </parent>
 
     <artifactId>integration-tests</artifactId>
+    <name>Annotation Literal Generator Demo</name>
 
     <dependencies>
-        <dependency>
-            <groupId>de.hilling.lang.annotations</groupId>
-            <artifactId>api</artifactId>
-            <version>1.1-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>de.hilling.lang.annotations</groupId>
             <artifactId>processor</artifactId>
@@ -25,21 +21,4 @@
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <configuration>
-                    <skipStaging>true</skipStaging>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

@@ -207,6 +207,10 @@
     <profiles>
         <profile>
             <id>release</id>
+            <modules>
+                <module>api</module>
+                <module>processor</module>
+            </modules>
             <build>
                 <plugins>
                     <plugin>

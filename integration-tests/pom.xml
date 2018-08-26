@@ -3,7 +3,7 @@
     <parent>
         <groupId>de.hilling.lang.annotations</groupId>
         <artifactId>literal-generator</artifactId>
-        <version>#</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>integration-tests</artifactId>
@@ -12,12 +12,12 @@
         <dependency>
             <groupId>de.hilling.lang.annotations</groupId>
             <artifactId>api</artifactId>
-            <version>#</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>de.hilling.lang.annotations</groupId>
             <artifactId>processor</artifactId>
-            <version>#</version>
+            <version>1.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

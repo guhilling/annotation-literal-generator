@@ -3,7 +3,7 @@
 
     <groupId>de.hilling.lang.annotations</groupId>
     <artifactId>literal-generator</artifactId>
-    <version>1.0.12-SNAPSHOT</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
     <url>https://github.com/guhilling/annotation-literal-generator</url>
     <inceptionYear>2018</inceptionYear>
@@ -24,7 +24,7 @@
         <connection>scm:git:https://github.com/guhilling/annotation-literal-generator.git</connection>
         <developerConnection>scm:git:https://github.com/guhilling/annotation-literal-generator.git</developerConnection>
         <url>https://github.com/guhilling/annotation-literal-generator.git</url>
-        <tag>HEAD</tag>
+        <tag>literal-generator-1.1.0</tag>
     </scm>
 
     <licenses>

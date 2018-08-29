@@ -21,15 +21,21 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
     private static final String GENERATE_FOR_CLASS_NAME = GenerateLiteralFor.class.getCanonicalName();
 
     private TypeMirror generateLiteralModel;
+    private TypeMirror annotationModel;
     private Types typeUtils;
+    private Elements elementUtils;
 
     @Override
     public void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         typeUtils = processingEnv.getTypeUtils();
-        Elements elementUtils = processingEnv.getElementUtils();
-        generateLiteralModel = elementUtils.getTypeElement(GenerateLiteral.class.getName())
-                                           .asType();
+        elementUtils = processingEnv.getElementUtils();
+        generateLiteralModel = typeMirror(GenerateLiteral.class);
+        annotationModel = typeMirror(Annotation.class);
+    }
+
+    private TypeMirror typeMirror(Class<?> clazz) {
+        return elementUtils.getTypeElement(clazz.getName()).asType();
     }
 
     @Override
@@ -55,8 +61,8 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
                                                                  .equals(GENERATE_FOR_CLASS_NAME))
                                                    .findFirst()
                                                    .orElseThrow(() -> new RuntimeException("couldn't find target annotation"));
-        AnnotationValue value = getAnnotationValue(annotationMirror);
-        if (!(value instanceof Annotation)) {
+        TypeMirror valueMirror = (TypeMirror) getAnnotationValue(annotationMirror).getValue();
+        if (!typeUtils.isAssignable(valueMirror, annotationModel)) {
             messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR, element, annotationMirror);
         }
     }

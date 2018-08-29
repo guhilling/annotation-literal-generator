@@ -43,6 +43,14 @@ public class AnnotationLiteralGeneratorTest {
     }
 
     @Test
+    public void compileGenerateLiteralForDeprecated() {
+        final JavaFileObject illegalSource = source(GenerateLiteralForDeprecated.class);
+        Compilation compilation = compiler.compile(illegalSource);
+
+        assertAbout(compilations()).that(compilation).succeeded();
+    }
+
+    @Test
     public void compileNoElementAnnotation() {
         final JavaFileObject noElementAnnotation = source(NoElementAnnotation.class);
         Compilation compilation = compiler.compile(noElementAnnotation);

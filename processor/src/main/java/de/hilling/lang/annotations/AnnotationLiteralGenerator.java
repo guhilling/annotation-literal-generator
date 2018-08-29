@@ -1,9 +1,5 @@
 package de.hilling.lang.annotations;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Set;
-
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
@@ -11,9 +7,12 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Set;
 
 /**
- * Generate static metamodel for plain java classes.
+ * Generate implementations for annotations annotated with {@link GenerateLiteral}.
  */
 public class AnnotationLiteralGenerator extends AbstractProcessor {
 

@@ -1,20 +1,17 @@
 package de.hilling.lang.annotations;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.type.TypeMirror;
+import java.util.*;
 
 /**
- * Properties model for annotation.
+ * Attributes model for annotation processing.
  */
 class ClassModel {
-    private final ProcessingEnvironment   env;
-    private final Map<String, TypeMirror> attributes = new HashMap<>();
-    private final List<String>            names      = new ArrayList<>();
+    private final ProcessingEnvironment         env;
+    private final Map<String, TypeMirror>       attributes   = new HashMap<>();
+    private final Map<String, Optional<String>> descriptions = new HashMap<>();
+    private final List<String>                  names        = new ArrayList<>();
 
     ClassModel(ProcessingEnvironment env) {
         this.env = env;
@@ -35,8 +32,13 @@ class ClassModel {
         return names;
     }
 
-    public void addAttribute(String name, TypeMirror type) {
+    void addAttribute(String name, TypeMirror type, String description) {
         names.add(name);
         attributes.put(name, type);
+        descriptions.put(name, Optional.ofNullable(description));
+    }
+
+    Optional<String> getJavadoc(String attribute) {
+        return descriptions.getOrDefault(attribute, Optional.empty());
     }
 }

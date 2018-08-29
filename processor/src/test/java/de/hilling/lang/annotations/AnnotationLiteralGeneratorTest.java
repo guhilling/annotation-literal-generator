@@ -1,18 +1,17 @@
 package de.hilling.lang.annotations;
 
+import com.google.testing.compile.Compilation;
+import com.google.testing.compile.Compiler;
+import com.google.testing.compile.JavaFileObjects;
+import org.junit.Before;
+import org.junit.Test;
+
+import javax.tools.JavaFileObject;
+
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.testing.compile.CompilationSubject.compilations;
 import static com.google.testing.compile.Compiler.javac;
-
-import javax.tools.JavaFileObject;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import com.google.testing.compile.Compilation;
-import com.google.testing.compile.Compiler;
-import com.google.testing.compile.JavaFileObjects;
 
 public class AnnotationLiteralGeneratorTest {
 
@@ -53,6 +52,31 @@ public class AnnotationLiteralGeneratorTest {
 
         assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotatedAnnotation__Literal.class))
                                    .hasSourceEquivalentTo(source(AnnotatedAnnotation__Literal.class));
+
+        assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotatedAnnotation__Literal.class))
+                                   .contentsAsUtf8String().contains("Implementation of {@link AnnotatedAnnotation}.");
+
+        assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotatedAnnotation__Literal.class))
+                                   .contentsAsUtf8String().contains("* @param value The dummy value of this test annotation.");
+
+    }
+
+    @Test
+    public void compileAnnotationWithBrokenComments() {
+        final JavaFileObject annotatedAnnotation = source(AnnotationWithBrokenComments.class);
+        Compilation compilation = compiler.compile(annotatedAnnotation);
+
+        assertAbout(compilations()).that(compilation).succeeded();
+
+        assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotationWithBrokenComments__Literal.class))
+                                   .hasSourceEquivalentTo(source(AnnotationWithBrokenComments__Literal.class));
+
+        assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotationWithBrokenComments__Literal.class))
+                                   .contentsAsUtf8String().contains("* @param value (documentation missing from annotation.)");
+
+        assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(AnnotationWithBrokenComments__Literal.class))
+                                   .contentsAsUtf8String().contains("* @param name (documentation missing from annotation.)");
+
     }
 
     @Test

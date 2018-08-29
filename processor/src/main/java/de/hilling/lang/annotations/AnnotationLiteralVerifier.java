@@ -16,10 +16,13 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
+/**
+ * Verify correct usage of the {@link GenerateLiteral} annotation.
+ */
 @SupportedAnnotationTypes({"de.hilling.lang.annotations.GenerateLiteral"})
 public class AnnotationLiteralVerifier extends AbstractProcessor {
 
-    public static final String ERROR_MESSAGE = "wrong use of annotation: must be used on an annotation.";
+    static final String ERROR_MESSAGE = "wrong use of annotation: must be used on an annotation.";
     private TypeMirror         generateLiteralModel;
     private Types              typeUtils;
 

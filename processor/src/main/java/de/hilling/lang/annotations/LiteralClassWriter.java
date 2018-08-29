@@ -1,6 +1,6 @@
 package de.hilling.lang.annotations;
 
-import java.io.IOException;
+import com.squareup.javapoet.*;
 
 import javax.annotation.processing.Generated;
 import javax.enterprise.util.AnnotationLiteral;
@@ -8,26 +8,23 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.util.Types;
+import java.io.IOException;
 
-import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
+import static com.squareup.javapoet.MethodSpec.methodBuilder;
 
 /**
  * Create literal for given annotation.
  */
 class LiteralClassWriter {
 
-    private static final String SUFFIX = "__Literal";
+    private static final String SUFFIX      = "__Literal";
+    private static final String MISSING_DOC = "@param $L (documentation missing from annotation.)\n";
 
-    private final TypeElement annotationType;
-    private final ClassModel  classModel;
-    private final String      literalClassName;
+    private final TypeElement        annotationType;
+    private final ClassModel         classModel;
+    private final String             literalClassName;
+    private       TypeSpec.Builder   classBuilder;
+    private       MethodSpec.Builder constructorBuilder;
 
     /**
      * Initialize class with {@link TypeElement} and {@link ClassModel} containing attributes.
@@ -48,19 +45,19 @@ class LiteralClassWriter {
      */
     void invoke() throws IOException {
         final Types typeUtils = classModel.getEnvironment().getTypeUtils();
-        TypeSpec.Builder classBuilder = TypeSpec.classBuilder(literalClassName).addModifiers(Modifier.PUBLIC);
+        classBuilder = TypeSpec.classBuilder(literalClassName).addModifiers(Modifier.PUBLIC);
 
-        addAnnotationGenerated(classBuilder);
+        addAnnotationGenerated();
 
         final DeclaredType declaredType = typeUtils.getDeclaredType(annotationType);
-        classBuilder.addSuperinterface(TypeName.get(declaredType));
-        classBuilder.superclass(ParameterizedTypeName.get(ClassName.get(AnnotationLiteral.class), ClassName.get(declaredType)));
+        classBuilder.addSuperinterface(TypeName.get(declaredType)).superclass(
+        ParameterizedTypeName.get(ClassName.get(AnnotationLiteral.class), ClassName.get(declaredType)))
+                    .addJavadoc("Implementation of {@link $T}.\n", annotationType);
 
-        final MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder();
+        constructorBuilder = MethodSpec.constructorBuilder();
         constructorBuilder.addModifiers(Modifier.PUBLIC);
 
-        classModel.names()
-                  .forEach(attribute -> generateAttributeAndMethod(classBuilder, constructorBuilder, attribute));
+        classModel.names().forEach(this::generateAttributeAndAccessor);
 
         if (!classModel.names().isEmpty()) {
             classBuilder.addMethod(constructorBuilder.build());
@@ -69,21 +66,26 @@ class LiteralClassWriter {
         writeSource(classBuilder.build());
     }
 
-    private void generateAttributeAndMethod(TypeSpec.Builder classBuilder, MethodSpec.Builder constructorBuilder,
-                                            String attribute) {
+    private void generateAttributeAndAccessor(String attribute) {
         final TypeName typeName = TypeName.get(classModel.getType(attribute));
 
         classBuilder.addField(FieldSpec.builder(typeName, attribute, Modifier.PRIVATE, Modifier.FINAL).build());
 
-        constructorBuilder.addParameter(typeName, attribute);
-        constructorBuilder.addStatement("this.$1L = $1L", attribute);
+        constructorBuilder.addParameter(typeName, attribute).addStatement("this.$1L = $1L", attribute);
 
-        final MethodSpec.Builder builder = MethodSpec.methodBuilder(attribute);
-        builder.addAnnotation(Override.class);
-        builder.addModifiers(Modifier.PUBLIC);
-        builder.returns(typeName);
-        builder.addStatement("return $L", attribute);
-        classBuilder.addMethod(builder.build());
+        classModel.getJavadoc(attribute)
+                  .filter(s -> ! s.isEmpty())
+                  .ifPresentOrElse(s -> constructorBuilder.addJavadoc("@param $L $L\n", attribute, s),
+                                   () -> constructorBuilder.addJavadoc(MISSING_DOC, attribute));
+
+        classBuilder.addMethod(createAccessor(attribute, typeName));
+    }
+
+    private MethodSpec createAccessor(String attribute, TypeName typeName) {
+        MethodSpec.Builder builder = methodBuilder(attribute).addAnnotation(Override.class)
+                                                             .addModifiers(Modifier.PUBLIC).returns(typeName)
+                                                             .addStatement("return $L", attribute);
+        return builder.build();
     }
 
     private void writeSource(TypeSpec typeSpec) throws IOException {
@@ -92,7 +94,7 @@ class LiteralClassWriter {
         javaFile.writeTo(classModel.getEnvironment().getFiler());
     }
 
-    private void addAnnotationGenerated(TypeSpec.Builder classBuilder) {
+    private void addAnnotationGenerated() {
         final AnnotationSpec.Builder specBuilder = AnnotationSpec.builder(Generated.class);
         specBuilder.addMember("value", "$S", AnnotationLiteralGenerator.class.getCanonicalName());
         classBuilder.addAnnotation(specBuilder.build());

@@ -7,6 +7,9 @@ import javax.enterprise.util.AnnotationLiteral;
 public class AnnotatedAnnotation__Literal extends AnnotationLiteral<AnnotatedAnnotation> implements AnnotatedAnnotation {
     private final int value;
 
+    /**
+     * @param value The dummy value of this test annotation.
+     */
     public AnnotatedAnnotation__Literal(int value) {
         this.value = value;
     }

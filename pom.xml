@@ -85,6 +85,11 @@
                 <version>${junit-jupiter-api.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>com.github.javaparser</groupId>
+                <artifactId>javaparser-core</artifactId>
+                <version>3.6.19</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

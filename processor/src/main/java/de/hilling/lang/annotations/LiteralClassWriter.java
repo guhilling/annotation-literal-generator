@@ -5,6 +5,7 @@ import com.squareup.javapoet.*;
 import javax.annotation.processing.Generated;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.util.Types;
@@ -23,6 +24,7 @@ class LiteralClassWriter {
     private final TypeElement        annotationType;
     private final ClassModel         classModel;
     private final String             literalClassName;
+    private final PackageElement targetPackage;
     private       TypeSpec.Builder   classBuilder;
     private       MethodSpec.Builder constructorBuilder;
 
@@ -32,10 +34,11 @@ class LiteralClassWriter {
      * @param annotationType the bean class.
      * @param classModel     attribute informations about the bean class.
      */
-    LiteralClassWriter(TypeElement annotationType, ClassModel classModel) {
+    LiteralClassWriter(TypeElement annotationType, ClassModel classModel, PackageElement targetPackage) {
         this.annotationType = annotationType;
         this.classModel = classModel;
         literalClassName = annotationType.getSimpleName() + SUFFIX;
+        this.targetPackage = targetPackage;
     }
 
     /**
@@ -89,7 +92,7 @@ class LiteralClassWriter {
     }
 
     private void writeSource(TypeSpec typeSpec) throws IOException {
-        JavaFile javaFile = JavaFile.builder(ClassName.get(annotationType).packageName(), typeSpec).indent("    ")
+        JavaFile javaFile = JavaFile.builder(targetPackage.toString(), typeSpec).indent("    ")
                                     .skipJavaLangImports(true).build();
         javaFile.writeTo(classModel.getEnvironment().getFiler());
     }

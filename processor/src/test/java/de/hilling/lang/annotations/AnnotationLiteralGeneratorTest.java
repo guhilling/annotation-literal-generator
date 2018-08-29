@@ -48,6 +48,9 @@ public class AnnotationLiteralGeneratorTest {
         Compilation compilation = compiler.compile(illegalSource);
 
         assertAbout(compilations()).that(compilation).succeeded();
+
+        assertAbout(compilations()).that(compilation).generatedSourceFile(qualifiedName(Deprecated__Literal.class))
+                                   .hasSourceEquivalentTo(source(Deprecated__Literal.class));
     }
 
     @Test

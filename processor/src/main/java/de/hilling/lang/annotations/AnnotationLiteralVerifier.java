@@ -2,13 +2,15 @@ package de.hilling.lang.annotations;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.*;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import java.lang.annotation.Annotation;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,7 +20,6 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
 
     static final String ERROR_MESSAGE_LITERAL = "wrong use of annotation: must be used on an annotation.";
     static final String ERROR_MESSAGE_LITERAL_FOR = "wrong use of annotation: must be used with annotation value.";
-    private static final String GENERATE_FOR_CLASS_NAME = GenerateLiteralFor.class.getCanonicalName();
 
     private TypeMirror generateLiteralModel;
     private TypeMirror annotationModel;
@@ -54,34 +55,11 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
     }
 
     private void verifyGenerateLiteralForUsedWithAnnotationValue(Element element) {
-        AnnotationMirror annotationMirror = element.getAnnotationMirrors()
-                                                   .stream()
-                                                   .filter(t -> t.getAnnotationType()
-                                                                 .toString()
-                                                                 .equals(GENERATE_FOR_CLASS_NAME))
-                                                   .findFirst()
-                                                   .orElseThrow(() -> new RuntimeException("couldn't find target annotation"));
+        AnnotationMirror annotationMirror = annotationToGenerate(element);
         TypeMirror valueMirror = (TypeMirror) getAnnotationValue(annotationMirror).getValue();
         if (!typeUtils.isAssignable(valueMirror, annotationModel)) {
             messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR, element, annotationMirror);
         }
-    }
-
-    private AnnotationValue getAnnotationValue(AnnotationMirror annotationMirror) {
-        return annotationMirror.getElementValues()
-                               .entrySet()
-                               .stream()
-                               .filter(this::filterValueEntry)
-                               .map(Map.Entry::getValue)
-                               .findFirst()
-                               .orElseThrow(() -> new RuntimeException("unable to find annotation parameter"));
-    }
-
-    private boolean filterValueEntry(Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry) {
-        return entry.getKey()
-                    .getSimpleName()
-                    .toString()
-                    .equals("value");
     }
 
     private void compilerErrorMessageGenerate(Element element) {

@@ -49,25 +49,33 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
 
     private void verifyGenerateLiteralForUsedWithAnnotationValue(Element element) {
         AnnotationMirror annotationMirror = element.getAnnotationMirrors()
-                                           .stream()
-                                           .filter(t -> t.getAnnotationType()
-                                                         .toString()
-                                                         .equals(GENERATE_FOR_CLASS_NAME))
-                                           .findFirst()
-                                           .orElseThrow(() -> new RuntimeException("couldn't find target annotation"));
+                                                   .stream()
+                                                   .filter(t -> t.getAnnotationType()
+                                                                 .toString()
+                                                                 .equals(GENERATE_FOR_CLASS_NAME))
+                                                   .findFirst()
+                                                   .orElseThrow(() -> new RuntimeException("couldn't find target annotation"));
         AnnotationValue value = getAnnotationValue(annotationMirror);
-        if(!(value instanceof Annotation)) {
-            compilerErrorMessageGenerateFor(element, annotationMirror);
+        if (!(value instanceof Annotation)) {
+            messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR, element, annotationMirror);
         }
     }
 
     private AnnotationValue getAnnotationValue(AnnotationMirror annotationMirror) {
-        for(Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : annotationMirror.getElementValues().entrySet() ) {
-            if(entry.getKey().getSimpleName().toString().equals("value")) {
-                return entry.getValue();
-            }
-        }
-        throw new RuntimeException("unable to find annotation parameter");
+        return annotationMirror.getElementValues()
+                               .entrySet()
+                               .stream()
+                               .filter(this::filterValueEntry)
+                               .map(Map.Entry::getValue)
+                               .findFirst()
+                               .orElseThrow(() -> new RuntimeException("unable to find annotation parameter"));
+    }
+
+    private boolean filterValueEntry(Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry) {
+        return entry.getKey()
+                    .getSimpleName()
+                    .toString()
+                    .equals("value");
     }
 
     private void compilerErrorMessageGenerate(Element element) {
@@ -80,7 +88,4 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
         messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL, element, annotation);
     }
 
-    private void compilerErrorMessageGenerateFor(Element element, AnnotationMirror annotationMirror) {
-        messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR, element, annotationMirror);
-    }
 }

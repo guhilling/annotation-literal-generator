@@ -23,11 +23,21 @@ public class AnnotationLiteralGeneratorTest {
     }
 
     @Test
-    public void failOnIllegalAnnotation() {
-        final JavaFileObject illegalSource = source(IllegallyUsedAnnotation.class);
+    public void failOnIllegalGenerateLiteralAnnotation() {
+        final JavaFileObject illegalSource = source(IllegallyUsedGenerateLiteral.class);
         Compilation compilation = compiler.compile(illegalSource);
 
-        assertAbout(compilations()).that(compilation).hadErrorContaining(AnnotationLiteralVerifier.ERROR_MESSAGE)
+        assertAbout(compilations()).that(compilation).hadErrorContaining(AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL)
+                                   .inFile(illegalSource).onLine(5).atColumn(1);
+        assertThat(compilation.status()).isEqualTo(Compilation.Status.FAILURE);
+    }
+
+    @Test
+    public void failOnIllegalGenerateLiteralForAnnotation() {
+        final JavaFileObject illegalSource = source(IllegallyUsedGenerateLiteralFor.class);
+        Compilation compilation = compiler.compile(illegalSource);
+
+        assertAbout(compilations()).that(compilation).hadErrorContaining(AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR)
                                    .inFile(illegalSource).onLine(5).atColumn(1);
         assertThat(compilation.status()).isEqualTo(Compilation.Status.FAILURE);
     }

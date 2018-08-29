@@ -1,20 +1,16 @@
 package de.hilling.lang.annotations;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Set;
 
 /**
  * Generate implementations for annotations annotated with {@link GenerateLiteral}.
  */
-public class AnnotationLiteralGenerator extends AbstractProcessor {
+public class AnnotationLiteralGenerator extends LiteralProcessor {
 
     private int round;
 
@@ -41,20 +37,6 @@ public class AnnotationLiteralGenerator extends AbstractProcessor {
         } catch (IOException e) {
             messager().printMessage(Diagnostic.Kind.ERROR, "Writing metaclass failed", element);
         }
-    }
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton(GenerateLiteral.class.getCanonicalName());
-    }
-
-    @Override
-    public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.latestSupported();
-    }
-
-
-    private Messager messager() {
-        return processingEnv.getMessager();
     }
 
 }

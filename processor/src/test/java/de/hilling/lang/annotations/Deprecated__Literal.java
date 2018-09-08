@@ -3,6 +3,7 @@ package de.hilling.lang.annotations;
 import javax.annotation.processing.Generated;
 import javax.enterprise.util.AnnotationLiteral;
 
+// tag::implementation[]
 @Generated("de.hilling.lang.annotations.AnnotationLiteralGenerator")
 public class Deprecated__Literal extends AnnotationLiteral<Deprecated> implements Deprecated {
     private final String since;
@@ -28,3 +29,4 @@ public class Deprecated__Literal extends AnnotationLiteral<Deprecated> implement
         return forRemoval;
     }
 }
+// end::implementation[]

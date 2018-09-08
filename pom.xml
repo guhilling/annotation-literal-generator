@@ -185,6 +185,19 @@
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>1.6.8</version>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>package-test-sources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>

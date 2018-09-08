@@ -42,8 +42,11 @@ class ClassHandler {
 
     private void collectAccessorInfo(ExecutableElement methodRef) {
         classModel.addAttribute(methodRef.getSimpleName()
-                                         .toString(), methodRef.getReturnType(),
-                extractReturnDescription(methodRef).orElse(null));
+                                         .toString(),
+                ImmutableMirrorWithDocumentation.builder()
+                                                .mirror(methodRef.getReturnType())
+                                                .javadoc(extractReturnDescription(methodRef))
+                                                .build());
     }
 
     private Optional<String> extractReturnDescription(ExecutableElement methodRef) {

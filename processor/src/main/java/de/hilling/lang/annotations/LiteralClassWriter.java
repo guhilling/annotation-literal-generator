@@ -70,13 +70,15 @@ class LiteralClassWriter {
     }
 
     private void generateAttributeAndAccessor(String attribute) {
-        final TypeName typeName = TypeName.get(classModel.getType(attribute));
+        final TypeName typeName = TypeName.get(classModel.getMirrorWithDocumentation(attribute)
+                                                         .getMirror());
 
         classBuilder.addField(FieldSpec.builder(typeName, attribute, Modifier.PRIVATE, Modifier.FINAL).build());
 
         constructorBuilder.addParameter(typeName, attribute).addStatement("this.$1L = $1L", attribute);
 
-        classModel.getJavadoc(attribute)
+        classModel.getMirrorWithDocumentation(attribute)
+                  .getJavadoc()
                   .filter(s -> ! s.isEmpty())
                   .ifPresentOrElse(s -> constructorBuilder.addJavadoc("@param $L $L\n", attribute, s),
                                    () -> constructorBuilder.addJavadoc(MISSING_DOC, attribute));

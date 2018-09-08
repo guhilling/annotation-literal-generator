@@ -16,7 +16,8 @@ import java.util.Set;
 /**
  * Verify correct usage of the {@link GenerateLiteral} annotation.
  */
-public class AnnotationLiteralVerifier extends LiteralProcessor {
+public class AnnotationLiteralVerifier
+        extends LiteralProcessor {
 
     static final String ERROR_MESSAGE_LITERAL = "wrong use of annotation: must be used on an annotation.";
     static final String ERROR_MESSAGE_LITERAL_FOR = "wrong use of annotation: must be used with annotation value.";
@@ -39,6 +40,7 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
         return elementUtils.getTypeElement(clazz.getName()).asType();
     }
 
+    // tag::implementation[]
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         roundEnv.getElementsAnnotatedWith(GenerateLiteral.class)
@@ -47,6 +49,7 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
                 .forEach(this::verifyGenerateLiteralForUsedWithAnnotationValue);
         return false;
     }
+    // end::implementation[]
 
     private void verifyGenerateLiteralNotUsedOnAnnotation(Element element) {
         if (element.getKind() != ElementKind.ANNOTATION_TYPE) {
@@ -54,6 +57,7 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
         }
     }
 
+    // tag::implementation[]
     private void verifyGenerateLiteralForUsedWithAnnotationValue(Element element) {
         AnnotationMirror annotationMirror = annotationToGenerate(element);
         TypeMirror valueMirror = (TypeMirror) getAnnotationValue(annotationMirror).getValue();
@@ -61,6 +65,7 @@ public class AnnotationLiteralVerifier extends LiteralProcessor {
             messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR, element, annotationMirror);
         }
     }
+    // end::implementation[]
 
     private void compilerErrorMessageGenerate(Element element) {
         AnnotationMirror annotation = element.getAnnotationMirrors()

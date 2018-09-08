@@ -18,6 +18,7 @@ import java.util.Set;
 abstract class LiteralProcessor extends AbstractProcessor {
     private static final String GENERATE_FOR_CLASS_NAME = GenerateLiteralFor.class.getCanonicalName();
 
+    // tag::registration[]
     @Override
     public SourceVersion getSupportedSourceVersion() {
         return SourceVersion.latestSupported();
@@ -28,6 +29,7 @@ abstract class LiteralProcessor extends AbstractProcessor {
         return new HashSet<>(Arrays.asList(GenerateLiteral.class.getCanonicalName(),
                 GenerateLiteralFor.class.getCanonicalName()));
     }
+    // end::registration[]
 
     Messager messager() {
         return processingEnv.getMessager();

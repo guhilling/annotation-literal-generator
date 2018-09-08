@@ -13,11 +13,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.9</java.version>
+        <java.version>9</java.version>
         <compile-testing.version>0.15</compile-testing.version>
         <truth.version>0.42</truth.version>
         <javapoet.version>1.11.1</javapoet.version>
         <junit-jupiter-api.version>5.2.0</junit-jupiter-api.version>
+        <immutables.version>2.7.1</immutables.version>
+        <javaparser-core.version>3.6.19</javaparser-core.version>
+        <cdi-api.version>2.0-PFD</cdi-api.version>
     </properties>
 
     <scm>
@@ -88,7 +91,19 @@
             <dependency>
                 <groupId>com.github.javaparser</groupId>
                 <artifactId>javaparser-core</artifactId>
-                <version>3.6.19</version>
+                <version>${javaparser-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>${cdi-api.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>${immutables.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -152,7 +167,7 @@
                         <toolchains>
                             <jdk>
                                 <version>${java.version}</version>
-                                <vendor>sun</vendor>
+                                <vendor>openjdk</vendor>
                             </jdk>
                         </toolchains>
                     </configuration>

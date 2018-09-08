@@ -8,6 +8,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 /**
@@ -16,14 +17,16 @@ import java.util.Optional;
 class ClassHandler {
     private final TypeElement type;
     private final ProcessingEnvironment env;
-    private final ClassModel classModel;
+    private final ImmutableClassDescription.Builder classDescription;
+    private final LinkedHashMap<String, ImmutableMirrorWithDocumentation> mirrors = new LinkedHashMap<>();
 
     /**
      * @param element               the class to check for attributes.
      * @param processingEnvironment environment.
      */
     ClassHandler(TypeElement element, ProcessingEnvironment processingEnvironment) {
-        this.classModel = new ClassModel(processingEnvironment);
+        this.classDescription = ImmutableClassDescription.builder()
+                                                         .environment(processingEnvironment);
         this.type = element;
         this.env = processingEnvironment;
     }
@@ -31,18 +34,19 @@ class ClassHandler {
     /**
      * Collect information about class attributes.
      */
-    ClassModel invoke() {
+    ClassDescription invoke() {
         type.getEnclosedElements()
             .stream()
             .filter(element -> element.getKind() == ElementKind.METHOD)
             .map(element -> (ExecutableElement) element)
             .forEach(this::collectAccessorInfo);
-        return classModel;
+        return classDescription.mirrors(mirrors)
+                               .build();
     }
 
     private void collectAccessorInfo(ExecutableElement methodRef) {
-        classModel.addAttribute(methodRef.getSimpleName()
-                                         .toString(),
+        mirrors.put(methodRef.getSimpleName()
+                             .toString(),
                 ImmutableMirrorWithDocumentation.builder()
                                                 .mirror(methodRef.getReturnType())
                                                 .javadoc(extractReturnDescription(methodRef))

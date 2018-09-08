@@ -18,25 +18,25 @@ import static com.squareup.javapoet.MethodSpec.methodBuilder;
  */
 class LiteralClassWriter {
 
-    private static final String SUFFIX      = "__Literal";
+    private static final String SUFFIX = "__Literal";
     private static final String MISSING_DOC = "@param $L (documentation missing from annotation.)\n";
 
-    private final TypeElement        annotationType;
-    private final ClassModel         classModel;
-    private final String             literalClassName;
+    private final TypeElement annotationType;
+    private final ClassDescription classDescription;
+    private final String literalClassName;
     private final PackageElement targetPackage;
-    private       TypeSpec.Builder   classBuilder;
-    private       MethodSpec.Builder constructorBuilder;
+    private TypeSpec.Builder classBuilder;
+    private MethodSpec.Builder constructorBuilder;
 
     /**
-     * Initialize class with {@link TypeElement} and {@link ClassModel} containing attributes.
+     * Initialize class with {@link TypeElement} and {@link ClassDescription} containing attributes.
      *
      * @param annotationType the bean class.
      * @param classModel     attribute informations about the bean class.
      */
-    LiteralClassWriter(TypeElement annotationType, ClassModel classModel, PackageElement targetPackage) {
+    LiteralClassWriter(TypeElement annotationType, ClassDescription classModel, PackageElement targetPackage) {
         this.annotationType = annotationType;
-        this.classModel = classModel;
+        this.classDescription = classModel;
         literalClassName = annotationType.getSimpleName() + SUFFIX;
         this.targetPackage = targetPackage;
     }
@@ -47,22 +47,28 @@ class LiteralClassWriter {
      * @throws IOException if source file cannot be written.
      */
     void invoke() throws IOException {
-        final Types typeUtils = classModel.getEnvironment().getTypeUtils();
-        classBuilder = TypeSpec.classBuilder(literalClassName).addModifiers(Modifier.PUBLIC);
+        final Types typeUtils = classDescription.getEnvironment()
+                                                .getTypeUtils();
+        classBuilder = TypeSpec.classBuilder(literalClassName)
+                               .addModifiers(Modifier.PUBLIC);
 
         addAnnotationGenerated();
 
         final DeclaredType declaredType = typeUtils.getDeclaredType(annotationType);
-        classBuilder.addSuperinterface(TypeName.get(declaredType)).superclass(
-        ParameterizedTypeName.get(ClassName.get(AnnotationLiteral.class), ClassName.get(declaredType)))
+        classBuilder.addSuperinterface(TypeName.get(declaredType))
+                    .superclass(
+                            ParameterizedTypeName.get(ClassName.get(AnnotationLiteral.class), ClassName.get(declaredType)))
                     .addJavadoc("Implementation of {@link $T}.\n", annotationType);
 
         constructorBuilder = MethodSpec.constructorBuilder();
         constructorBuilder.addModifiers(Modifier.PUBLIC);
 
-        classModel.names().forEach(this::generateAttributeAndAccessor);
+        classDescription.getMirrors()
+                        .keySet()
+                        .forEach(this::generateAttributeAndAccessor);
 
-        if (!classModel.names().isEmpty()) {
+        if (!classDescription.getMirrors()
+                             .isEmpty()) {
             classBuilder.addMethod(constructorBuilder.build());
         }
 
@@ -70,33 +76,39 @@ class LiteralClassWriter {
     }
 
     private void generateAttributeAndAccessor(String attribute) {
-        final TypeName typeName = TypeName.get(classModel.getMirrorWithDocumentation(attribute)
-                                                         .getMirror());
+        final TypeName typeName = TypeName.get(classDescription.getMirrorWithDocumentation(attribute)
+                                                               .getMirror());
 
-        classBuilder.addField(FieldSpec.builder(typeName, attribute, Modifier.PRIVATE, Modifier.FINAL).build());
+        classBuilder.addField(FieldSpec.builder(typeName, attribute, Modifier.PRIVATE, Modifier.FINAL)
+                                       .build());
 
-        constructorBuilder.addParameter(typeName, attribute).addStatement("this.$1L = $1L", attribute);
+        constructorBuilder.addParameter(typeName, attribute)
+                          .addStatement("this.$1L = $1L", attribute);
 
-        classModel.getMirrorWithDocumentation(attribute)
-                  .getJavadoc()
-                  .filter(s -> ! s.isEmpty())
-                  .ifPresentOrElse(s -> constructorBuilder.addJavadoc("@param $L $L\n", attribute, s),
-                                   () -> constructorBuilder.addJavadoc(MISSING_DOC, attribute));
+        classDescription.getMirrorWithDocumentation(attribute)
+                        .getJavadoc()
+                        .filter(s -> !s.isEmpty())
+                        .ifPresentOrElse(s -> constructorBuilder.addJavadoc("@param $L $L\n", attribute, s),
+                                () -> constructorBuilder.addJavadoc(MISSING_DOC, attribute));
 
         classBuilder.addMethod(createAccessor(attribute, typeName));
     }
 
     private MethodSpec createAccessor(String attribute, TypeName typeName) {
         MethodSpec.Builder builder = methodBuilder(attribute).addAnnotation(Override.class)
-                                                             .addModifiers(Modifier.PUBLIC).returns(typeName)
+                                                             .addModifiers(Modifier.PUBLIC)
+                                                             .returns(typeName)
                                                              .addStatement("return $L", attribute);
         return builder.build();
     }
 
     private void writeSource(TypeSpec typeSpec) throws IOException {
-        JavaFile javaFile = JavaFile.builder(targetPackage.toString(), typeSpec).indent("    ")
-                                    .skipJavaLangImports(true).build();
-        javaFile.writeTo(classModel.getEnvironment().getFiler());
+        JavaFile javaFile = JavaFile.builder(targetPackage.toString(), typeSpec)
+                                    .indent("    ")
+                                    .skipJavaLangImports(true)
+                                    .build();
+        javaFile.writeTo(classDescription.getEnvironment()
+                                         .getFiler());
     }
 
     private void addAnnotationGenerated() {

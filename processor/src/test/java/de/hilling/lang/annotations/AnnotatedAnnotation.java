@@ -3,7 +3,6 @@ package de.hilling.lang.annotations;
 import org.immutables.value.Value;
 
 @GenerateLiteral
-@Value.Immutable
 @interface AnnotatedAnnotation {
 
     /**

@@ -31,8 +31,8 @@ public class AnnotationLiteralGenerator extends LiteralProcessor {
     private void generateLiteral(Element element) {
         TypeElement typeElement = (TypeElement) element;
         messager().printMessage(Diagnostic.Kind.NOTE, "processing " + element);
-        final ClassModel classModel = new ClassHandler(typeElement, processingEnv).invoke();
-        writeLiteralClass(typeElement, classModel, (PackageElement) element.getEnclosingElement());
+        final ClassDescription classDescription = new ClassHandler(typeElement, processingEnv).invoke();
+        writeLiteralClass(typeElement, classDescription, (PackageElement) element.getEnclosingElement());
     }
 
     private void generateLiteralFor(Element element) {
@@ -41,13 +41,13 @@ public class AnnotationLiteralGenerator extends LiteralProcessor {
         messager().printMessage(Diagnostic.Kind.NOTE, "processing " + valueMirror);
         final TypeElement annotationElement = processingEnv.getElementUtils()
                                                      .getTypeElement(valueMirror.toString());
-        final ClassModel classModel = new ClassHandler(annotationElement, processingEnv).invoke();
-        writeLiteralClass(annotationElement, classModel, (PackageElement) element.getEnclosingElement());
+        final ClassDescription classDescription = new ClassHandler(annotationElement, processingEnv).invoke();
+        writeLiteralClass(annotationElement, classDescription, (PackageElement) element.getEnclosingElement());
     }
 
-    private void writeLiteralClass(TypeElement element, ClassModel classModel, PackageElement targetPackage) {
+    private void writeLiteralClass(TypeElement element, ClassDescription classDescription, PackageElement targetPackage) {
         try {
-            new LiteralClassWriter(element, classModel, targetPackage).invoke();
+            new LiteralClassWriter(element, classDescription, targetPackage).invoke();
         } catch (IOException e) {
             messager().printMessage(Diagnostic.Kind.ERROR, "Writing metaclass failed", element);
         }

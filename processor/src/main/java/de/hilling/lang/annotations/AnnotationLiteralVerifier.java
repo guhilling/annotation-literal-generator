@@ -22,8 +22,8 @@ public class AnnotationLiteralVerifier
     static final String ERROR_MESSAGE_LITERAL = "wrong use of annotation: must be used on an annotation.";
     static final String ERROR_MESSAGE_LITERAL_FOR = "wrong use of annotation: must be used with annotation value.";
 
-    private TypeMirror generateLiteralModel;
-    private TypeMirror annotationModel;
+    private TypeMirror generateLiteralMirror;
+    private TypeMirror annotationMirror;
     private Types typeUtils;
     private Elements elementUtils;
 
@@ -32,8 +32,8 @@ public class AnnotationLiteralVerifier
         super.init(processingEnv);
         typeUtils = processingEnv.getTypeUtils();
         elementUtils = processingEnv.getElementUtils();
-        generateLiteralModel = typeMirror(GenerateLiteral.class);
-        annotationModel = typeMirror(Annotation.class);
+        generateLiteralMirror = typeMirror(GenerateLiteral.class);
+        annotationMirror = typeMirror(Annotation.class);
     }
 
     private TypeMirror typeMirror(Class<?> clazz) {
@@ -59,10 +59,10 @@ public class AnnotationLiteralVerifier
 
     // tag::implementation[]
     private void verifyGenerateLiteralForUsedWithAnnotationValue(Element element) {
-        AnnotationMirror annotationMirror = annotationToGenerate(element);
-        TypeMirror valueMirror = (TypeMirror) getAnnotationValue(annotationMirror).getValue();
-        if (!typeUtils.isAssignable(valueMirror, annotationModel)) {
-            messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR, element, annotationMirror);
+        AnnotationMirror elementMirror = annotationToGenerate(element);
+        TypeMirror valueMirror = (TypeMirror) getAnnotationValue(elementMirror).getValue();
+        if (!typeUtils.isAssignable(valueMirror, annotationMirror)) {
+            messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL_FOR, element, elementMirror);
         }
     }
     // end::implementation[]
@@ -71,7 +71,7 @@ public class AnnotationLiteralVerifier
         AnnotationMirror annotation = element.getAnnotationMirrors()
                                              .stream()
                                              .filter(m -> typeUtils.isSameType(m.getAnnotationType(),
-                                                     generateLiteralModel))
+                                                     generateLiteralMirror))
                                              .findFirst()
                                              .orElseThrow(() -> new RuntimeException("internal compiler error"));
         messager().printMessage(Diagnostic.Kind.ERROR, AnnotationLiteralVerifier.ERROR_MESSAGE_LITERAL, element, annotation);

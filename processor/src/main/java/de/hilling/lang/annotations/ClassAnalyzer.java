@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Collect information about the given class.
  */
-class ClassHandler {
+class ClassAnalyzer {
     private final TypeElement type;
     private final ProcessingEnvironment env;
     private final ImmutableClassDescription.Builder classDescription;
@@ -24,7 +24,7 @@ class ClassHandler {
      * @param element               the class to check for attributes.
      * @param processingEnvironment environment.
      */
-    ClassHandler(TypeElement element, ProcessingEnvironment processingEnvironment) {
+    ClassAnalyzer(TypeElement element, ProcessingEnvironment processingEnvironment) {
         this.classDescription = ImmutableClassDescription.builder()
                                                          .environment(processingEnvironment);
         this.type = element;
@@ -32,7 +32,9 @@ class ClassHandler {
     }
 
     /**
-     * Collect information about class attributes.
+     * Collect information about annotation attributes.
+     *
+     * @return {@link ClassDescription} for all parameters.
      */
     ClassDescription invoke() {
         type.getEnclosedElements()

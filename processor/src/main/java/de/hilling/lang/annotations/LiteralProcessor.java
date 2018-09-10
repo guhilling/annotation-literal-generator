@@ -35,6 +35,12 @@ abstract class LiteralProcessor extends AbstractProcessor {
         return processingEnv.getMessager();
     }
 
+    /**
+     * Determine {@link AnnotationMirror} of given Element for Annotation {@link GenerateLiteralFor}.
+     *
+     * @param element annotated element.
+     * @return {@link AnnotationMirror} of {@link GenerateLiteralFor}.
+     */
     AnnotationMirror annotationToGenerate(Element element) {
         return element.getAnnotationMirrors()
                       .stream()
@@ -45,6 +51,12 @@ abstract class LiteralProcessor extends AbstractProcessor {
                       .orElseThrow(() -> new RuntimeException("couldn't find target annotation"));
     }
 
+    /**
+     * Determine value of annotation ('value').
+     *
+     * @param annotationMirror mirror to search. Actually this should be simpler.
+     * @return wrapped annotation value.
+     */
     AnnotationValue getAnnotationValue(AnnotationMirror annotationMirror) {
         return annotationMirror.getElementValues()
                                .entrySet()

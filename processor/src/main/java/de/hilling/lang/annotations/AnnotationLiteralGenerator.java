@@ -31,7 +31,7 @@ public class AnnotationLiteralGenerator extends LiteralProcessor {
     private void generateLiteral(Element element) {
         TypeElement typeElement = (TypeElement) element;
         messager().printMessage(Diagnostic.Kind.NOTE, "processing " + element);
-        final ClassDescription classDescription = new ClassHandler(typeElement, processingEnv).invoke();
+        final ClassDescription classDescription = new ClassAnalyzer(typeElement, processingEnv).invoke();
         writeLiteralClass(typeElement, classDescription, (PackageElement) element.getEnclosingElement());
     }
 
@@ -41,7 +41,7 @@ public class AnnotationLiteralGenerator extends LiteralProcessor {
         messager().printMessage(Diagnostic.Kind.NOTE, "processing " + valueMirror);
         final TypeElement annotationElement = processingEnv.getElementUtils()
                                                      .getTypeElement(valueMirror.toString());
-        final ClassDescription classDescription = new ClassHandler(annotationElement, processingEnv).invoke();
+        final ClassDescription classDescription = new ClassAnalyzer(annotationElement, processingEnv).invoke();
         writeLiteralClass(annotationElement, classDescription, (PackageElement) element.getEnclosingElement());
     }
 

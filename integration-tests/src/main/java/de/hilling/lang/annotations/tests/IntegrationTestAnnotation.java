@@ -2,9 +2,13 @@ package de.hilling.lang.annotations.tests;
 
 import de.hilling.lang.annotations.GenerateLiteral;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
 /**
  * Annotation for demo application.
  */
+@Target(ElementType.TYPE)
 @GenerateLiteral
 public @interface IntegrationTestAnnotation {
 

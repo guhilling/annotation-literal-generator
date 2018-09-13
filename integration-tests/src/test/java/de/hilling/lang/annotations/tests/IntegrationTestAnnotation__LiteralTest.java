@@ -1,8 +1,5 @@
-package tests;
+package de.hilling.lang.annotations.tests;
 
-import de.hilling.lang.annotations.tests.Deprecated__Literal;
-import de.hilling.lang.annotations.tests.IntegrationTestAnnotation;
-import de.hilling.lang.annotations.tests.IntegrationTestAnnotation__Literal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

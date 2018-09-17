@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
  * Annotation for demo application.
  */
 @Target(ElementType.TYPE)
+@IntegrationTestAnnotation(value = "Example", type = IntegrationTestAnnotation__Literal.class)
 @GenerateLiteral
 public @interface IntegrationTestAnnotation {
 

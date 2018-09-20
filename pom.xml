@@ -218,6 +218,7 @@
                     <argLine>${surefireArgLine}</argLine>
                 </configuration>
             </plugin>
+			<!--
                 <plugin>
                     <artifactId>maven-toolchains-plugin</artifactId>
                     <version>1.1</version>
@@ -237,6 +238,7 @@
                         </toolchains>
                     </configuration>
                 </plugin>
+			-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>

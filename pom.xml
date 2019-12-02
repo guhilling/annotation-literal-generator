@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>9</java.version>
-        <compile-testing.version>0.15</compile-testing.version>
+        <compile-testing.version>0.18</compile-testing.version>
         <truth.version>0.42</truth.version>
         <javapoet.version>1.11.1</javapoet.version>
         <junit-jupiter-api.version>5.2.0</junit-jupiter-api.version>

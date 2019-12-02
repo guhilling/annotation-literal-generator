@@ -1,6 +1,6 @@
 package de.hilling.lang.annotations;
 
-import com.github.javaparser.JavaParser;
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.javadoc.JavadocBlockTag;
 import com.github.javaparser.javadoc.description.JavadocDescription;
 
@@ -61,12 +61,12 @@ class ClassAnalyzer {
         if (docComment == null) {
             return Optional.empty();
         }
-        return JavaParser.parseJavadoc(docComment)
-                         .getBlockTags()
-                         .stream()
-                         .filter(t -> t.getType() == JavadocBlockTag.Type.RETURN)
-                         .findFirst()
-                         .map(JavadocBlockTag::getContent)
-                         .map(JavadocDescription::toText);
+        return StaticJavaParser.parseJavadoc(docComment)
+                               .getBlockTags()
+                               .stream()
+                               .filter(t -> t.getType() == JavadocBlockTag.Type.RETURN)
+                               .findFirst()
+                               .map(JavadocBlockTag::getContent)
+                               .map(JavadocDescription::toText);
     }
 }

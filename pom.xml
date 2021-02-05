@@ -13,7 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>9</java.version>
+        <java.version>11</java.version>
         <compile-testing.version>0.19</compile-testing.version>
         <truth.version>0.42</truth.version>
         <javapoet.version>1.13.0</javapoet.version>

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/guhilling/annotation-literal-generator.svg?branch=master)](https://travis-ci.org/guhilling/annotation-literal-generator)
+[![Build Annotation Literal Generator](https://github.com/guhilling/annotation-literal-generator/actions/workflows/maven.yml/badge.svg)](https://github.com/guhilling/annotation-literal-generator/actions/workflows/maven.yml)
 [![Coverage (Sonar)](https://sonarcloud.io/api/project_badges/measure?project=de.hilling.lang.annotations%3Aliteral-generator&metric=coverage)](https://sonarcloud.io/dashboard?id=de.hilling.lang.annotations%3Aliteral-generator)
 [![Status (Sonar)](https://sonarcloud.io/api/project_badges/measure?project=de.hilling.lang.annotations%3Aliteral-generator&metric=alert_status)](https://sonarcloud.io/dashboard?id=de.hilling.lang.annotations%3Aliteral-generator)
 [![Maintainability (Sonar)](https://sonarcloud.io/api/project_badges/measure?project=de.hilling.lang.annotations%3Aliteral-generator&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=de.hilling.lang.annotations%3Aliteral-generator)

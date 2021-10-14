@@ -40,7 +40,7 @@ class ClassAnalyzer {
         type.getEnclosedElements()
             .stream()
             .filter(element -> element.getKind() == ElementKind.METHOD)
-            .map(element -> (ExecutableElement) element)
+            .map(ExecutableElement.class::cast)
             .forEach(this::collectAccessorInfo);
         return classDescription.mirrors(mirrors)
                                .build();

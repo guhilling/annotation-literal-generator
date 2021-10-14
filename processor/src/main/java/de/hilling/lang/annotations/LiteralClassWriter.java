@@ -57,7 +57,7 @@ class LiteralClassWriter {
         final DeclaredType declaredType = typeUtils.getDeclaredType(annotationType);
         classBuilder.addSuperinterface(TypeName.get(declaredType))
                     .superclass(
-                            ParameterizedTypeName.get(ClassName.get(AnnotationLiteral.class), ClassName.get(declaredType)))
+                            ParameterizedTypeName.get(ClassName.get(AnnotationLiteral.class), TypeName.get(declaredType)))
                     .addJavadoc("Implementation of {@link $T}.\n", annotationType);
 
         constructorBuilder = MethodSpec.constructorBuilder();

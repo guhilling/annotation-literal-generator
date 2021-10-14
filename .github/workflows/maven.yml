@@ -11,7 +11,7 @@ jobs:
       matrix:
         java: [ '11' ]
         include:
-          - java: 16
+          - java: 12
             extraargs: >
               jacoco:report
               sonar:sonar

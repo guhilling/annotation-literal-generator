@@ -28,5 +28,5 @@ public @interface IntegrationTestAnnotation {
      */
     int age() default 42;
 
-    Class type() default Object.class;
+    Class<?> type() default Object.class;
 }

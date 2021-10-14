@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class IntegrationTestAnnotation__LiteralTest {
+class IntegrationTestAnnotation__LiteralTest {
 
     private static final IntegrationTestAnnotation__Literal CUSTOM_LITERAL_UNDER_TEST =
             new IntegrationTestAnnotation__Literal("Hilling", "Gunnar", 42, Object.class);
@@ -14,12 +14,12 @@ public class IntegrationTestAnnotation__LiteralTest {
             new Deprecated__Literal("2.3", true);
 
     @Test
-    public void isAnnotation() {
+    void isAnnotation() {
         assertTrue(CUSTOM_LITERAL_UNDER_TEST instanceof IntegrationTestAnnotation);
     }
 
     @Test
-    public void valuesSet() {
+    void valuesSet() {
         assertEquals("Hilling", CUSTOM_LITERAL_UNDER_TEST.value());
     }
 

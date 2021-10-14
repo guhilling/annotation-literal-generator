@@ -1,4 +1,4 @@
-name: Build CDI Test
+name: Build Annotation Literal Generator
 
 on: [push]
 
@@ -11,7 +11,7 @@ jobs:
       matrix:
         java: [ '11' ]
         include:
-          - java: 17
+          - java: 16
             extraargs: >
               jacoco:report
               sonar:sonar

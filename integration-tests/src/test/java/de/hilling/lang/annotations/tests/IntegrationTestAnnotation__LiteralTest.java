@@ -24,7 +24,7 @@ class IntegrationTestAnnotation__LiteralTest {
     }
 
     @Test
-    public void isDeprecatedAnnotation() {
+    void isDeprecatedAnnotation() {
         assertTrue(DEPRECRATED_LITERAL_UNDER_TEST instanceof Deprecated);
     }
 }

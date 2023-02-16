@@ -9,6 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        java: [ '11', '17', '19' ]
         include:
           - java: 11
             extraargs: >
@@ -18,7 +19,7 @@ jobs:
               -Dsonar.organization=guhilling-github
               -Dsonar.projectKey=de.hilling.lang.annotations:literal-generator
            - java: 17
-             skipTests: true
+              extraargs: -DskipTests
 
     name: Maven Build JDK ${{ matrix.java }}
 
@@ -40,4 +41,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: mvn -B test --file pom.xml ${{ matrix.extraargs }}
-      if: ${{ ! matrix.skipTests }}
+      if: ${{ matrix.skipTests }}

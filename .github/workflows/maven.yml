@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -12,14 +11,8 @@ jobs:
         include:
           - java: 11
             runTests: true
-            extraargs: >
-              jacoco:report
-              sonar:sonar
-              -Dsonar.host.url=https://sonarcloud.io
-              -Dsonar.organization=guhilling-github
-              -Dsonar.projectKey=de.hilling.lang.annotations:literal-generator
-           - java: 17
-             runTests: false
+          - java: 17
+            runTests: false
 
     name: Maven Build JDK ${{ matrix.java }}
 
@@ -40,5 +33,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn -B test --file pom.xml ${{ matrix.extraargs }}
+      run: >
+        mvn -B test --file pom.xml jacoco:report
+        sonar:sonar
+        -Dsonar.host.url=https://sonarcloud.io
+        -Dsonar.organization=guhilling-github
+        -Dsonar.projectKey=de.hilling.lang.annotations:literal-generator
       if: ${{ matrix.runTests }}

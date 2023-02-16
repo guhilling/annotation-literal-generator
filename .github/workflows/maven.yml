@@ -8,11 +8,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        java: [ 11, 17, 19 ]
         include:
           - java: 11
             runTests: true
-          - java: 17
-            runTests: false
 
     name: Maven Build JDK ${{ matrix.java }}
 

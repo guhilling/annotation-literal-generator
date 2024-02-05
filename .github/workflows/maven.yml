@@ -10,7 +10,7 @@ jobs:
       matrix:
         java: [ 11, 17, 20 ]
         include:
-          - java: 11
+          - java: 17
             runTests: true
 
     name: Maven Build JDK ${{ matrix.java }}

@@ -20,7 +20,7 @@
         <javapoet.version>1.13.0</javapoet.version>
         <junit-jupiter-api.version>5.11.0</junit-jupiter-api.version>
         <immutables.version>2.10.1</immutables.version>
-        <javaparser-core.version>3.26.1</javaparser-core.version>
+        <javaparser-core.version>3.26.2</javaparser-core.version>
         <cdi-api.version>2.0.SP1</cdi-api.version>
     </properties>
 

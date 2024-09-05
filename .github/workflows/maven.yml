@@ -38,7 +38,7 @@ jobs:
         -Dsonar.host.url=https://sonarcloud.io
         -Dsonar.organization=guhilling-github
         -Dsonar.projectKey=de.hilling.lang.annotations:literal-generator
-      if: ${{ matrix.runTests && env.SONAR_TOKEN != '' }}
+      if: ${{ matrix.runSonarTests && env.SONAR_TOKEN != '' }}
     - name: Maven Test JDK ${{ matrix.java }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

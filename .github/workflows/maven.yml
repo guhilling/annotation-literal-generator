@@ -9,9 +9,9 @@ jobs:
       fail-fast: false
       matrix:
         java: [ 11, 17, 21 ]
-#        include:
-#          - java: 17
-#            runTests: true
+        include:
+          - java: 11
+            runTests: true
 
     name: Maven Build JDK ${{ matrix.java }}
 

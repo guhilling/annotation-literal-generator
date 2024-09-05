@@ -6,7 +6,8 @@
 .settings
 
 .idea
-
 *.iml
+.vscode
 
 **/target
+

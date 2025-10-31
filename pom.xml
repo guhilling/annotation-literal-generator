@@ -18,7 +18,7 @@
         <compile-testing.version>0.23.0</compile-testing.version>
         <truth.version>0.42</truth.version>
         <javapoet.version>1.13.0</javapoet.version>
-        <junit-jupiter-api.version>6.0.0</junit-jupiter-api.version>
+        <junit-jupiter-api.version>6.0.1</junit-jupiter-api.version>
         <immutables.version>2.11.6</immutables.version>
         <javaparser-core.version>3.27.1</javaparser-core.version>
         <cdi-api.version>2.0.SP1</cdi-api.version>

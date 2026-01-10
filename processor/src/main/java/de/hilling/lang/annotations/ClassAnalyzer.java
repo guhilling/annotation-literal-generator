@@ -61,7 +61,7 @@ class ClassAnalyzer {
         if (docComment == null) {
             return Optional.empty();
         }
-        return StaticJavaParser.parseJavadoc(docComment)
+        return StaticJavaParser.parseJavadoc(docComment, false)
                                .getBlockTags()
                                .stream()
                                .filter(t -> t.getType() == JavadocBlockTag.Type.RETURN)
